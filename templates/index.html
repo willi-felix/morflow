@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Morse Code Converter</title>
+    <title>Morse Code Translator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         function copyToClipboard() {
@@ -14,35 +14,22 @@
     </script>
 </head>
 <body class="bg-gray-100">
-
-<div class="max-w-2xl mx-auto mt-10 p-5 bg-white rounded shadow">
-    <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Morse Code Converter</h1>
-
-    <form action="/convert" method="POST" class="space-y-4">
-        <table class="w-full table-auto border-collapse">
-            <tr>
-                <td class="border p-3">Input</td>
-                <td class="border p-3">
-                    <textarea name="text" rows="4" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter text or Morse code">{{ input_text if input_text else '' }}</textarea>
-                </td>
-            </tr>
-        </table>
-
-        <button type="submit" class="w-full p-3 bg-blue-500 text-white font-semibold rounded mt-4">Convert</button>
-    </form>
-
-    {% if result %}
-    <table class="w-full table-auto border-collapse mt-6">
-        <tr>
-            <td class="border p-3">Result</td>
-            <td class="border p-3">
-                <textarea id="resultText" rows="4" class="w-full p-2 border border-gray-300 rounded" readonly>{{ result }}</textarea>
-                <button onclick="copyToClipboard()" class="mt-2 w-full p-2 bg-green-500 text-white font-semibold rounded">Copy Result</button>
-            </td>
-        </tr>
-    </table>
-    {% endif %}
-</div>
-
+    <div class="max-w-4xl mx-auto mt-10 p-5 bg-white rounded shadow">
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Morse Code Translator</h1>
+        <form action="/convert" method="POST" class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="inputText" class="block text-gray-700">Enter Text or Morse Code:</label>
+                    <textarea id="inputText" name="text" rows="10" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter text or Morse code">{{ input_text if input_text else '' }}</textarea>
+                </div>
+                <div>
+                    <label for="resultText" class="block text-gray-700">Result:</label>
+                    <textarea id="resultText" rows="10" class="w-full p-2 border border-gray-300 rounded" readonly>{{ result if result else '' }}</textarea>
+                    <button type="button" onclick="copyToClipboard()" class="mt-2 w-full p-2 bg-blue-500 text-white font-semibold rounded">Copy Result</button>
+                </div>
+            </div>
+            <button type="submit" class="w-full p-3 bg-green-500 text-white font-semibold rounded mt-4">Translate</button>
+        </form>
+    </div>
 </body>
 </html>

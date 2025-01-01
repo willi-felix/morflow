@@ -14,17 +14,17 @@ def is_morse_code(text):
 @lru_cache(maxsize=128)
 def convert_morse(text):
     if is_morse_code(text):
-        return Morse(text).stringToMorse()
-    else:
         return Morse(text).morseToString()
+    else:
+        return Morse(text).stringToMorse()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', input_text='', result='', processing_time=None)
 
 @app.route('/convert', methods=['POST'])
 def convert():
-    text = request.form['text'].strip()
+    text = request.form.get('text', '').strip()
     start_time = time.time()
 
     try:
@@ -32,8 +32,7 @@ def convert():
     except Exception as e:
         result = f"Error: {e}"
 
-    end_time = time.time()
-    processing_time = round(end_time - start_time, 4)
+    processing_time = round(time.time() - start_time, 4)
 
     return render_template('index.html', result=result, input_text=text, processing_time=processing_time)
 
@@ -49,4 +48,4 @@ def api_convert():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=False, threaded=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, threaded=True, host='0.0.0.0', port=5000)

@@ -24,6 +24,10 @@ def convert_morse(text):
 def index():
     return render_template('index.html', input_text='', result='', processing_time=None)
 
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(os.path.join(app.root_path, 'public'), 'sitemap.xml', mimetype='application/xml')
+
 @app.route('/convert', methods=['POST'])
 def convert():
     text = request.form.get('text', '').strip()

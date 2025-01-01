@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /convert
+Disallow: /api/convert
+Sitemap: https://morflow.is-app.top/sitemap.xml

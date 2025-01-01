@@ -10,6 +10,7 @@
             const copyText = document.getElementById("resultText");
             copyText.select();
             document.execCommand("copy");
+            alert("Result copied to clipboard!");
         }
     </script>
 </head>
@@ -19,14 +20,17 @@
         <form action="/convert" method="POST" class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="inputText" class="block text-gray-700">Enter Text or Morse Code:</label>
+                    <label for="inputText" class="block text-gray-700 font-medium">Enter Text or Morse Code:</label>
                     <textarea id="inputText" name="text" rows="10" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter text or Morse code">{{ input_text if input_text else '' }}</textarea>
                 </div>
                 <div>
-                    <label for="resultText" class="block text-gray-700">Result:</label>
+                    <label for="resultText" class="block text-gray-700 font-medium">Result:</label>
                     <textarea id="resultText" rows="10" class="w-full p-2 border border-gray-300 rounded" readonly>{{ result if result else '' }}</textarea>
                     <button type="button" onclick="copyToClipboard()" class="mt-2 w-full p-2 bg-blue-500 text-white font-semibold rounded">Copy Result</button>
                 </div>
+            </div>
+            <div class="text-center text-gray-500">
+                {{ "Processing time: " + processing_time + " seconds" if processing_time else "" }}
             </div>
             <button type="submit" class="w-full p-3 bg-green-500 text-white font-semibold rounded mt-4">Translate</button>
         </form>

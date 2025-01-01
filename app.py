@@ -1,3 +1,4 @@
+import os
 from flask import Flask, send_from_directory, render_template, request, jsonify
 from morse3 import Morse
 from concurrent.futures import ThreadPoolExecutor

@@ -5,10 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Morse Code Translator - Quickly translate text into Morse code and vice versa. Fast, reliable, and easy-to-use tool for encoding and decoding Morse code.">
     <meta name="keywords" content="Morse code, translator, encoding, decoding, morse code converter, online tool">
-    <meta name="William" content="Limex Corp.">
+    <meta name="author" content="Limex Corp.">
     <title>Morflow - Morse Code Translator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #007bff;
+        }
+    </style>
     <script>
         function copyToClipboard() {
             const copyText = document.getElementById("resultText");
@@ -20,37 +41,62 @@
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
-    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Morse Code Translator</h1>
-        
-        <form action="/convert" method="POST" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="inputText" class="block text-gray-700 font-semibold text-lg">Enter Text or Morse Code:</label>
-                    <textarea id="inputText" name="text" rows="10" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="Enter text or Morse code">{{ input_text }}</textarea>
-                    {% if input_text %}
-                    <p class="text-sm text-gray-500 mt-2">You entered: {{ input_text }}</p>
-                    {% endif %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Morflow</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">APIs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="card p-5">
+            <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Morse Code Translator</h1>
+            <form action="/convert" method="POST" class="space-y-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputText" class="block text-gray-700 font-semibold text-lg">Enter Text or Morse Code:</label>
+                            <textarea id="inputText" name="text" rows="10" class="form-control" placeholder="Enter text or Morse code">{{ input_text }}</textarea>
+                            {% if input_text %}
+                            <p class="text-sm text-gray-500 mt-2">You entered: {{ input_text }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="resultText" class="block text-gray-700 font-semibold text-lg">Result:</label>
+                            <textarea id="resultText" rows="10" class="form-control" readonly>{{ result }}</textarea>
+                            <button type="button" onclick="copyToClipboard()" class="btn btn-primary mt-3 w-100">Copy Result <i class="fas fa-copy ml-2"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label for="resultText" class="block text-gray-700 font-semibold text-lg">Result:</label>
-                    <textarea id="resultText" rows="10" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" readonly>{{ result }}</textarea>
-                    <button type="button" onclick="copyToClipboard()" class="mt-4 w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">Copy Result <i class="fas fa-copy ml-2"></i></button>
+                
+                {% if processing_time %}
+                <div class="text-center text-gray-500">
+                    <span>Processing time: {{ processing_time }} seconds</span>
                 </div>
-            </div>
-            
-            {% if processing_time %}
-            <div class="text-center text-gray-500">
-                <span>Processing time: {{ processing_time }} seconds</span>
-            </div>
-            {% endif %}
-            
-            <div class="flex justify-between items-center">
-                <button type="submit" class="w-full p-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all">Translate</button>
-                <a href="/" class="ml-4 flex justify-center items-center w-40 p-4 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all">New <i class="fas fa-sync-alt ml-2"></i></a>
-            </div>
-        </form>
+                {% endif %}
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-success w-100">Translate</button>
+                    <a href="/" class="btn btn-secondary ml-3">New <i class="fas fa-sync-alt ml-2"></i></a>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
